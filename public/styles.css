@@ -14,8 +14,68 @@ h1, h2, h3 {
     padding-left: 50px;
 }
 
+.brand-name {
+  font-family: 'Great Vibes', serif; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  font-size: 24px;
+  position: relative;
+  padding-top: 70px;
+}
+
+.brand-name:before{
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: black;
+  margin: 0 10px;
+}
+.brand-name:after {
+  content: '';
+  flex: 6;
+  height: 1px;
+  background: black;
+  margin: 0 10px;
+}
+
+.card{
+  background-color: transparent !important;
+  border-width: 0;
+}
+
+.card{
+  background-image: url('/images/scroll.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 450px;
+}
+
+.card:hover {
+  filter: brightness(0.9);
+}
+
+.card-title{
+  padding-top: 100px;
+  font-family: 'Garamond', serif;
+}
+
+.card-text{
+  font-family: 'Garamond', serif;
+}
+
+.header-text {
+  font-family: 'Cinzel', serif;
+  font-size: 2.5em;
+  color: #8b5e3c;
+  text-align: center;
+  margin-top: 50px;
+}
+
 .image-button {
-    font-family: 'Lora', serif; /* Or 'Poppins' if you prefer a more modern look */
+    font-family: 'Lora', serif; 
     background-color: #4b3f28;
     background-image: url('/images/buttonImage1.png');
     background-size: cover;
@@ -33,6 +93,21 @@ h1, h2, h3 {
     filter: brightness(0.9);
 }
 
+.poemCard{
+  color: black;
+  text-decoration: none;
+  
+}
+
+.poemCardContainer{
+  /* padding-top: 30px; */
+  height: 100vh;
+}
+
+.poemCard:hover{
+  color: black;
+  text-decoration: none;
+}
 .poetry-text {
     font-family: 'Great Vibes', cursive;
     font-size: 1.5em;
@@ -41,13 +116,6 @@ h1, h2, h3 {
     margin: 20px;
   }
 
-  .header-text {
-    font-family: 'Cinzel', serif;
-    font-size: 2.5em;
-    color: #8b5e3c;
-    text-align: center;
-    margin-top: 50px;
-  }
 
 @media screen and (max-width: 991px) {
 
@@ -59,4 +127,10 @@ h1, h2, h3 {
         padding-top: 200px;
     }
 
+    .poemCardContainer{
+      padding-top: 100px;
+      /* padding-left: 60px; */
+      height: 100vh;
+    }
+    
 }

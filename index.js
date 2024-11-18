@@ -30,8 +30,8 @@ app.get("/", (req, res) => {
 
 app.get("/allPoems", async (req, res) => {
     try {
-      const result = await pool.query("SELECT * FROM items");
-      res.render("index", { items: result.rows });
+      const result = await pool.query("SELECT * FROM poems");
+      res.render("allPoems", { items: result.rows });
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server Error");
@@ -44,8 +44,21 @@ app.get("/add", (req, res) => {
   
 app.post("/add", async (req, res) => {
 try {
-    const { name } = req.body;
-    await pool.query("INSERT INTO items (name) VALUES ($1)", [name]);
+    const title = req.body.title;
+    const content = req.body.content;
+    const author = req.body.author;
+    const createdAt = new Date().toISOString();
+    const category = req.body.category;
+    // const UpdayedAt;
+
+    const query = `
+    INSERT INTO poems (title, content, author, created_at, category)
+    VALUES ($1, $2, $3, $4, $5)
+  `;
+  const values = [title, content, author, createdAt, category];
+
+    await pool.query(query, values);
+    console.log('Poem inserted successfully!');
     res.redirect("/");
 } catch (err) {
     console.error(err.message);
@@ -56,7 +69,7 @@ try {
 app.get("/edit/:id", async (req, res) => {
     try {
       const { id } = req.params;
-      const result = await pool.query("SELECT * FROM items WHERE id = $1", [id]);
+      const result = await pool.query("SELECT * FROM poems WHERE id = $1", [id]);
       if (result.rows.length > 0) {
         res.render("edit", { item: result.rows[0] });
       } else {
@@ -70,9 +83,22 @@ app.get("/edit/:id", async (req, res) => {
   
 app.post("/edit/:id", async (req, res) => {
 try {
-    const { id } = req.params;
-    const { name } = req.body;
-    await pool.query("UPDATE items SET name = $1 WHERE id = $2", [name, id]);
+  const id = req.params.id;
+  const title = req.body.title;
+  const content = req.body.content;
+  const author = req.body.author;
+  const updatedAt = new Date().toISOString();
+  const category = req.body.category;
+
+  const query = `
+    UPDATE poems
+    SET title = $1, content = $2, author = $3, updated_at = $4, category = $5
+    WHERE id = $6
+  `;
+  const values = [title, content, author, updatedAt, category, id];
+
+    await pool.query(query, values);
+    console.log('Poem updated successfully!');
     res.redirect("/");
 } catch (err) {
     console.error(err.message);
@@ -83,7 +109,8 @@ try {
 app.post("/delete/:id", async (req, res) => {
 try {
     const { id } = req.params;
-    await pool.query("DELETE FROM items WHERE id = $1", [id]);
+    await pool.query("DELETE FROM poems WHERE id = $1", [id]);
+    console.log('Poem deleted successfully!');
     res.redirect("/");
 } catch (err) {
     console.error(err.message);
