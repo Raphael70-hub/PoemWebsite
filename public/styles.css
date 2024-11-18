@@ -1,0 +1,62 @@
+/* body{
+    font-family: 'Garamond', serif;
+}
+
+h1, h2, h3 {
+    font-family: 'Playfair Display', serif;
+  } */
+.button-container {
+    display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 30%;
+    padding-top: 200px;
+    padding-left: 50px;
+}
+
+.image-button {
+    font-family: 'Lora', serif; /* Or 'Poppins' if you prefer a more modern look */
+    background-color: #4b3f28;
+    background-image: url('/images/buttonImage1.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: none;
+    padding: 50px;
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.image-button:hover {
+    filter: brightness(0.9);
+}
+
+.poetry-text {
+    font-family: 'Great Vibes', cursive;
+    font-size: 1.5em;
+    line-height: 1.6;
+    color: #4b3f28; /* Dark, vintage tone for easy readability */
+    margin: 20px;
+  }
+
+  .header-text {
+    font-family: 'Cinzel', serif;
+    font-size: 2.5em;
+    color: #8b5e3c;
+    text-align: center;
+    margin-top: 50px;
+  }
+
+@media screen and (max-width: 991px) {
+
+    .button-container {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+        padding-top: 200px;
+    }
+
+}
