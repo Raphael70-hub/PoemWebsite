@@ -1,0 +1,91 @@
+<%- include('partials/header') %>
+
+<style>
+    /* html, body {
+        margin: 0;
+        padding: 0; 
+        height: 100%; 
+        overflow: hidden;
+    } */
+    
+    body {
+        background-image: url('/images/home.jpg'); 
+        background-size: cover;
+        background-repeat:repeat;
+        background-position: center; 
+        margin: 0; /* Removes any potential default margins */
+        height: 100vh;
+    }
+</style>
+
+<div class="container home-container">
+    <%- include('components/fixed-navbar') %>
+
+
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th class="p-3" scope="col">ID</th>
+            <th class="p-3" scope="col">Title</th>
+            <th class="p-3" scope="col">Author</th>
+            <th class="p-3" scope="col">Created At</th>
+            <th class="p-3" scope="col">Last updated at</th>
+            <th class="p-3" scope="col"></th>
+            <th class="p-3" scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+            <% for(let i=0; i<poems.length; i++){%>
+                <tr>
+                    <th class="p-3" scope="row"><%= poems[i].id %></th>
+                    <td class="p-3"><a href="/poem/<%= poems[i].title %>-by-<%= poems[i].author %>/<%= poems[i].id %>" class="poemLink"><%= poems[i].title %></a></td>
+                    <td class="p-3"><%= poems[i].author %></td>
+                    <% 
+                        const createdAt = new Date(poems[i].created_at);
+                        const updatedAt = new Date(poems[i].updated_at);
+                        const options = { 
+                            day: 'numeric', 
+                            month: 'long', 
+                            year: 'numeric', 
+                            hour: '2-digit', 
+                            minute: '2-digit', 
+                            second: '2-digit', 
+                            hour12: true 
+                        }; 
+                        const formattedCreatedDateTime = createdAt.toLocaleString('en-GB', options);
+                        const formattedUpdatedDateTime = updatedAt.toLocaleString('en-GB', options); 
+                    %>
+                    <td class="p-3"><%= formattedCreatedDateTime %></td>
+                    <td class="p-3"><%= formattedUpdatedDateTime %></td>
+                    <td class="p-3"><a class="btn btn-outline-dark" href="/admin/edit/<%= poems[i].id %>">Edit</a></td>
+                    <td class="p-3"><button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<%= poems[i].id %>">Delete</button></td>
+        
+                    
+                    <!-- Modal -->
+                    <div class="modal fade" id="deleteModal<%= poems[i].id %>" tabindex="-1" aria-labelledby="deleteModalLabel<%= poems[i].id %>" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="deleteModalLabel<%= poems[i].id %>">Delete "<%= poems[i].title %>"?</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <!-- <div class="modal-body">
+                            ...
+                            </div> -->
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <form action="/admin/delete/<%= poems[i].id %>" method="post">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                  </tr>
+            <%}%>
+        </tbody>
+      </table>
+</div>
+
+
+<%- include('partials/footer') %>

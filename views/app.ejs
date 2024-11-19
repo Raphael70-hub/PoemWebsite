@@ -1,0 +1,37 @@
+<%- include('partials/header') %>
+
+<style>
+    /* html, body {
+        margin: 0;
+        padding: 0; 
+        height: 100%; 
+        overflow: hidden;
+    } */
+    
+    body {
+        background-image: url('/images/homeBackground.webp'); 
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center; 
+        margin: 0; /* Removes any potential default margins */
+        height: 100vh;
+    }
+</style>
+
+<div class="button-container">
+    <div class="row">
+        <div class="col-12 col-lg-6 pb-5">
+            <a href="/allPoems" class="btn image-button">
+                All Poems
+            </a>
+        </div>
+
+        <div class="col-12 col-lg-6">
+            <button class="btn image-button">
+                About
+            </button>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

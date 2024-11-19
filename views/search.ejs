@@ -1,0 +1,79 @@
+<%- include('partials/header') %>
+
+<style>
+    /* html, body {
+        margin: 0;
+        padding: 0; 
+        height: 100%; 
+        overflow: hidden;
+    } */
+    
+    body {
+        background-image: url('/images/home.jpg'); 
+        background-size: cover;
+        background-repeat:repeat;
+        background-position: center; 
+        margin: 0; /* Removes any potential default margins */
+        height: 100vh;
+    }
+</style>
+
+<div class="container home-container">
+    <%- include('components/navbar') %>
+
+    <h4 class="p-5 poem-text"><%= message %></h4>
+
+    <% if (poems.length === 0) { %>
+        <p class="p-3">No poems found matching "<%= searchTerm %>"</p>
+    <% } else { %>
+        <% for(let i=0; i<poems.length; i++){%>
+            <div class="p-4 text-center">
+              <h4 class="text-center">
+                  <a href="/poem/<%= poems[i].title %>-by-<%= poems[i].author %>/<%= poems[i].id %>" class="poemLink">
+                      <% 
+                          const createdAt = new Date(poems[i].created_at);
+                          const options = { day: 'numeric', month: 'long', year: 'numeric' };
+                          const formattedDate = createdAt.toLocaleDateString('en-GB', options);
+                      %>
+                      <%= formattedDate %>
+                  </a>
+                  <div class="row">
+                      <div class="col-4">
+                          
+                      </div>
+                      <div class="col-4">
+                          <hr class="text-center">
+                      </div>
+                      <div class="col-4">
+                          
+                      </div>
+                  </div>
+              </h4>
+              <p style="font-size: small; padding-left: 150px;">"<%=poems[i].title%>" by <%=poems[i].author%></p>
+            </div>
+      
+            <div class="container poem-body">
+              <p><%=poems[i].author%></p>
+              <h3><%=poems[i].title%></h3>
+              <p><%=poems[i].content%></p>
+            </div>
+            <%}%>
+    <% } %>
+
+      
+</div>
+
+<script>
+    // Navbar animation on scroll
+    const navbar = document.querySelector('.navbar');
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 0) {
+            navbar.classList.add('fixed-top');
+        } else {
+            navbar.classList.remove('fixed-top');
+        }
+    });
+</script>
+
+<%- include('partials/footer') %>

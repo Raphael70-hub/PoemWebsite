@@ -21,17 +21,16 @@
 <div class="container home-container">
     <%- include('components/navbar') %>
 
-      <% for(let i=0; i<poems.length; i++){%>
       <div class="p-4 text-center">
         <h4 class="text-center">
-            <a href="/poem/<%= poems[i].title %>-by-<%= poems[i].author %>/<%= poems[i].id %>" class="poemLink">
+            <p class="poem-text">
                 <% 
-                    const createdAt = new Date(poems[i].created_at);
+                    const createdAt = new Date(poem.created_at);
                     const options = { day: 'numeric', month: 'long', year: 'numeric' };
                     const formattedDate = createdAt.toLocaleDateString('en-GB', options);
                 %>
                 <%= formattedDate %>
-            </a>
+            </p>
             <div class="row">
                 <div class="col-4">
                     
@@ -44,15 +43,14 @@
                 </div>
             </div>
         </h4>
-        <p style="font-size: small; padding-left: 150px;">"<%=poems[i].title%>" by <%=poems[i].author%></p>
+        <p style="font-size: small; padding-left: 150px;">"<%=poem.title%>" by <%=poem.author%></p>
       </div>
 
       <div class="container poem-body">
-        <p><%=poems[i].author%></p>
-        <h3><%=poems[i].title%></h3>
-        <p><%=poems[i].content%></p>
+        <p><%=poem.author%></p>
+        <h3><%=poem.title%></h3>
+        <p><%=poem.content%></p>
       </div>
-      <%}%>
 </div>
 
 <script>

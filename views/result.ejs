@@ -1,0 +1,31 @@
+<%- include('partials/header') %>
+
+<style>
+    /* html, body {
+        margin: 0;
+        padding: 0; 
+        height: 100%; 
+        overflow: hidden;
+    } */
+    
+    body {
+        background-image: url('/images/home.jpg'); 
+        background-size: cover;
+        background-repeat:repeat;
+        background-position: center; 
+        margin: 0; /* Removes any potential default margins */
+        height: 100vh;
+    }
+</style>
+
+<div class="container home-container">
+    <%- include('components/fixed-navbar') %>
+
+    <div class="p-5">
+        <h4 class="poem-text"><%= message %></h4>
+    </div>
+
+</div>
+
+
+<%- include('partials/footer') %>

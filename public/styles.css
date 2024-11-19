@@ -1,136 +1,88 @@
-/* body{
-    font-family: 'Garamond', serif;
+hr{
+  width: 350px;
 }
 
-h1, h2, h3 {
-    font-family: 'Playfair Display', serif;
-  } */
-.button-container {
-    display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 30%;
-    padding-top: 200px;
-    padding-left: 50px;
+textarea{
+  height: 300px;
 }
 
-.brand-name {
-  font-family: 'Great Vibes', serif; 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: black;
-  font-size: 24px;
-  position: relative;
-  padding-top: 70px;
+.home-container{
+  margin-top: 30vh;
+  background-color: white;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 
-.brand-name:before{
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: black;
-  margin: 0 10px;
-}
-.brand-name:after {
-  content: '';
-  flex: 6;
-  height: 1px;
-  background: black;
-  margin: 0 10px;
+.fixed-top{
+  position: fixed;
+  width: 100%;
 }
 
-.card{
-  background-color: transparent !important;
-  border-width: 0;
+
+.poem-body{
+  margin-bottom: 150px;
+  /* padding-top: 40px; */
+  padding-bottom: 30px;
+  padding-left: 300px;
+  padding-right: 300px;
 }
 
-.card{
-  background-image: url('/images/scroll.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  height: 450px;
-}
-
-.card:hover {
-  filter: brightness(0.9);
-}
-
-.card-title{
-  padding-top: 100px;
-  font-family: 'Garamond', serif;
-}
-
-.card-text{
-  font-family: 'Garamond', serif;
-}
-
-.header-text {
-  font-family: 'Cinzel', serif;
-  font-size: 2.5em;
-  color: #8b5e3c;
-  text-align: center;
-  margin-top: 50px;
-}
-
-.image-button {
-    font-family: 'Lora', serif; 
-    background-color: #4b3f28;
-    background-image: url('/images/buttonImage1.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    border: none;
-    padding: 50px;
-    color: black;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 8px;
-}
-
-.image-button:hover {
-    filter: brightness(0.9);
-}
-
-.poemCard{
-  color: black;
-  text-decoration: none;
-  
-}
-
-.poemCardContainer{
-  /* padding-top: 30px; */
-  height: 100vh;
-}
-
-.poemCard:hover{
-  color: black;
+.poemLink{
+  color: rgb(87, 119, 189);
   text-decoration: none;
 }
-.poetry-text {
-    font-family: 'Great Vibes', cursive;
-    font-size: 1.5em;
-    line-height: 1.6;
-    color: #4b3f28; /* Dark, vintage tone for easy readability */
-    margin: 20px;
-  }
 
+.poemLink:hover{
+  color: rgb(87, 119, 189);
+  text-decoration: underline;
+}
+
+.poem-text{
+  color: rgb(87, 119, 189);
+  text-decoration: none;
+}
 
 @media screen and (max-width: 991px) {
 
-    .button-container {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        width: 50%;
-        padding-top: 200px;
-    }
+  hr{
+    width: 150px;
+  }
 
-    .poemCardContainer{
-      padding-top: 100px;
-      /* padding-left: 60px; */
-      height: 100vh;
-    }
-    
+  textarea{
+    height: 200px;
+  }
+
+  .home-container{
+    margin-top: 30vh;
+    background-color: white;
+
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin: auto;
+    width: 100% !important;
+  }
+
+  
+  .modal-backdrop{
+    width: 300vw;
+    overflow: hidden;
+  }
+
+
+  .poem-body{
+    margin-bottom: 150px;
+    /* padding-top: 40px; */
+    padding-bottom: 30;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .home-container{
+    margin-top: 30vh;
+    background-color: white;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    width: fit-content !important;
+  }
+
 }

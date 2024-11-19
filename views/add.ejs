@@ -1,0 +1,45 @@
+<%- include('partials/header') %>
+
+<style>
+    /* html, body {
+        margin: 0;
+        padding: 0; 
+        height: 100%; 
+        overflow: hidden;
+    } */
+    
+    body {
+        background-image: url('/images/home.jpg'); 
+        background-size: cover;
+        background-repeat:repeat;
+        background-position: center; 
+        margin: 0; /* Removes any potential default margins */
+        height: 100vh;
+    }
+</style>
+
+<div class="container home-container">
+    <%- include('components/fixed-navbar') %>
+
+    <h4 class="poem-text p-4">Add new poem</h4>
+
+    <form method="post" action="/admin/add" class="p-5">
+        <div class="mb-3">
+          <label for="title" class="form-label">Title</label>
+          <input type="text" class="form-control" id="title" name="title">
+        </div>
+        <div class="mb-3">
+          <label for="author" class="form-label">Author</label>
+          <input type="text" class="form-control" id="author" name="author">
+        </div>
+        <div class="mb-3">
+            <label for="content" class="form-label">Content</label>
+            <textarea name="content" class="form-control" id="content" name="content"></textarea>
+          </div>
+        <button type="submit" class="btn btn-outline-dark">Submit</button>
+      </form>
+
+</div>
+
+
+<%- include('partials/footer') %>

@@ -24,25 +24,86 @@ const pool = new Pool({
 
 module.exports = pool;
 
-app.get("/", (req, res) => {
-    res.render("index");
-})
+app.get("/", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM poems ORDER BY created_at DESC");
+    res.render("index", { poems: result.rows });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
 
-app.get("/allPoems", async (req, res) => {
-    try {
-      const result = await pool.query("SELECT * FROM poems");
-      res.render("allPoems", { items: result.rows });
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send("Server Error");
+app.get("/poem/:title/:id", async (req, res) => {
+  try {
+    const { title, id } = req.params;
+    if (isNaN(id)) {
+      return res.status(400).send("Invalid ID format");
     }
-  });
+    const result = await pool.query("SELECT * FROM poems WHERE id = $1", [id]);
+    if (result.rows.length > 0) {
+      res.render("single-poem", { poem: result.rows[0] });
+    } else {
+      res.status(404).send("Item not found");
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+app.get("/search", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM poems ORDER BY created_at DESC");
+    res.redirect("/");
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+
+app.post("/search", async (req, res) => {
+  try {
+    const { q } = req.body;
+
+    if (!q) {
+      return res.render("search", { poems: [], message: "No search term provided" });
+    }
+
+    const result = await pool.query("SELECT * FROM poems WHERE title ILIKE $1 OR content ILIKE $1 OR author ILIKE $1 OR category ILIKE $1  ORDER BY created_at DESC", [`%${q}%`]);
+    res.render("search", { poems: result.rows, message: `Search result:  ${q}`, searchTerm: q });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+// app.get("/allPoems", async (req, res) => {
+//     try {
+//       const result = await pool.query("SELECT * FROM poems");
+//       res.render("allPoems", { poems: result.rows });
+//     } catch (err) {
+//       console.error(err.message);
+//       res.status(500).send("Server Error");
+//     }
+//   });
+
+app.get("/admin", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM poems ORDER BY created_at DESC");
+    res.render("admin", { poems: result.rows });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
   
-app.get("/add", (req, res) => {
+app.get("/admin/add", (req, res) => {
     res.render("add");
   });
   
-app.post("/add", async (req, res) => {
+app.post("/admin/add", async (req, res) => {
 try {
     const title = req.body.title;
     const content = req.body.content;
@@ -58,20 +119,20 @@ try {
   const values = [title, content, author, createdAt, category];
 
     await pool.query(query, values);
+    res.render("result", { message: "Poem added successfully" });
     console.log('Poem inserted successfully!');
-    res.redirect("/");
 } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
 }
 });
 
-app.get("/edit/:id", async (req, res) => {
+app.get("/admin/edit/:id", async (req, res) => {
     try {
       const { id } = req.params;
       const result = await pool.query("SELECT * FROM poems WHERE id = $1", [id]);
       if (result.rows.length > 0) {
-        res.render("edit", { item: result.rows[0] });
+        res.render("edit", { poem: result.rows[0] });
       } else {
         res.status(404).send("Item not found");
       }
@@ -81,7 +142,7 @@ app.get("/edit/:id", async (req, res) => {
     }
   });
   
-app.post("/edit/:id", async (req, res) => {
+app.post("/admin/edit/:id", async (req, res) => {
 try {
   const id = req.params.id;
   const title = req.body.title;
@@ -98,20 +159,20 @@ try {
   const values = [title, content, author, updatedAt, category, id];
 
     await pool.query(query, values);
+    res.render("result", { message: "Updated successfully" });
     console.log('Poem updated successfully!');
-    res.redirect("/");
 } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
 }
 });
 
-app.post("/delete/:id", async (req, res) => {
+app.post("/admin/delete/:id", async (req, res) => {
 try {
     const { id } = req.params;
     await pool.query("DELETE FROM poems WHERE id = $1", [id]);
+    res.render("result", { message: "Deleted successfully" });
     console.log('Poem deleted successfully!');
-    res.redirect("/");
 } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
