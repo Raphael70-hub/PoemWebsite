@@ -26,6 +26,14 @@
           <!-- <li class="nav-item">
             <a class="nav-link" aria-disabled="true">Admin</a>
           </li> -->
+          <% if (user) { %>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin">Admin</a>
+          </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+            </li>
+        <% }%>
         </ul>
         <form class="d-flex" method="post" action="/search" role="search">
           <input class="form-control me-2" type="search" name="q" placeholder="Search" aria-label="Search">

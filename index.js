@@ -1,10 +1,26 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const ejs = require('ejs');
+const session = require('express-session');
+const bcrypt = require('bcryptjs');
 require('dotenv').config()
 
 const app = express();
 const PORT = 3000;
+
+const hashPassword = async (password) => {
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password, salt);
+    console.log(hash);
+};
+
+app.use(session({
+    secret: process.env.SECRET_KEY,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false, httpOnly: true, maxAge: 1000 * 60 * 60 * 24 } // Set `secure: true` in production
+}));
+
 
 
 app.set('view engine', 'ejs');
@@ -22,7 +38,22 @@ const pool = new Pool({
     port: process.env.DB_PORT || 5432,
 });
 
+const isAuthenticated = (req, res, next) => {
+  if (req.session.user) {
+      return next();
+  }
+  // res.status(401).send('You need to log in');
+  // res.render("result", { message: "You are not Authorised to view this page"})
+  res.redirect('/login');
+};
+
+
 module.exports = pool;
+
+app.use((req, res, next) => {
+  res.locals.user = req.session.user || null;
+  next();
+});
 
 app.get("/", async (req, res) => {
   try {
@@ -89,7 +120,7 @@ app.post("/search", async (req, res) => {
 //     }
 //   });
 
-app.get("/admin", async (req, res) => {
+app.get("/admin", isAuthenticated, async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM poems ORDER BY created_at DESC");
     res.render("admin", { poems: result.rows });
@@ -99,11 +130,11 @@ app.get("/admin", async (req, res) => {
   }
 });
   
-app.get("/admin/add", (req, res) => {
+app.get("/admin/add", isAuthenticated, (req, res) => {
     res.render("add");
   });
   
-app.post("/admin/add", async (req, res) => {
+app.post("/admin/add", isAuthenticated, async (req, res) => {
 try {
     const title = req.body.title;
     const content = req.body.content;
@@ -127,7 +158,7 @@ try {
 }
 });
 
-app.get("/admin/edit/:id", async (req, res) => {
+app.get("/admin/edit/:id", isAuthenticated, async (req, res) => {
     try {
       const { id } = req.params;
       const result = await pool.query("SELECT * FROM poems WHERE id = $1", [id]);
@@ -142,7 +173,7 @@ app.get("/admin/edit/:id", async (req, res) => {
     }
   });
   
-app.post("/admin/edit/:id", async (req, res) => {
+app.post("/admin/edit/:id", isAuthenticated, async (req, res) => {
 try {
   const id = req.params.id;
   const title = req.body.title;
@@ -167,7 +198,7 @@ try {
 }
 });
 
-app.post("/admin/delete/:id", async (req, res) => {
+app.post("/admin/delete/:id", isAuthenticated, async (req, res) => {
 try {
     const { id } = req.params;
     await pool.query("DELETE FROM poems WHERE id = $1", [id]);
@@ -178,6 +209,49 @@ try {
     res.status(500).send("Server Error");
 }
 });
+
+app.get('/login', async (req, res) => {
+    const error = req.session.error;
+    req.session.error = null;
+    res.render('login', { error });
+})
+
+app.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+
+    try {
+        const result = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
+        if (result.rows.length === 0) {
+            // return res.status(401).send('Invalid username or password');
+            req.session.error = 'Invalid username or password';
+            return res.redirect('/login');
+        }
+
+        const user = result.rows[0];
+        const isMatch = await bcrypt.compare(password, user.password);
+
+        if (!isMatch) {
+            // return res.status(401).send('Invalid username or password');
+            req.session.error = 'Invalid username or password';
+            return res.redirect('/login');
+        }
+
+        req.session.user = { id: user.id, username: user.username};
+        // res.send('Login successful');
+        res.redirect("/admin")
+    } catch (err) {
+        res.status(500).send('Server error');
+    }
+});
+
+app.get('/logout', isAuthenticated, (req, res) => {
+  req.session.destroy((err) => {
+      if (err) return res.status(500).send('Could not log out');
+      // res.send('Logout successful');
+      res.redirect('/');
+  });
+});
+
     
 app.listen(process.env.PORT || PORT, function(){
     console.log(`Server started on port ${PORT}`);
