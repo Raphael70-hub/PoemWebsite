@@ -7,15 +7,47 @@ textarea{
 }
 
 .home-container{
-  margin-top: 30vh;
+  margin-top: 5vh;
   background-color: white;
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
 
+.add-top-margin{
+  margin-top: 30vh !important;
+}
+
+.logo-container {
+  margin-top: 20vh;
+  text-align: center;
+  background-color:transparent;
+}
+
+.logo-container img {
+  width: 100px; 
+  height: auto;
+}
+
+.invisible{
+  display: none;
+}
+
 .fixed-top{
   position: fixed;
   width: 100%;
+}
+
+.modal-body {
+  text-align: center;
+}
+
+
+.rounded-image {
+  width: 150px; 
+  height: 150px; 
+  object-fit: cover; 
+  border-radius: 50%; 
+  margin: 0 auto;
 }
 
 

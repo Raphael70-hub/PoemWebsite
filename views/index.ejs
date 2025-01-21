@@ -18,7 +18,13 @@
     }
 </style>
 
+
+<div class="logo-container">
+    <img src="/images/logo.jpeg" alt="Logo" />
+</div>
+
 <div class="container home-container">
+
     <%- include('components/navbar') %>
 
       <% for(let i=0; i<poems.length; i++){%>
@@ -58,12 +64,19 @@
 <script>
     // Navbar animation on scroll
     const navbar = document.querySelector('.navbar');
+    const logo = document.querySelector(".logo-container");
+    const homeContainer = document.querySelector(".home-container")
 
     window.addEventListener('scroll', () => {
         if (window.scrollY > 0) {
+            logo.classList.add('invisible')
             navbar.classList.add('fixed-top');
+            homeContainer.classList.add('add-top-margin');
+
         } else {
+            logo.classList.remove('invisible')
             navbar.classList.remove('fixed-top');
+            homeContainer.classList.remove('add-top-margin');
         }
     });
 </script>

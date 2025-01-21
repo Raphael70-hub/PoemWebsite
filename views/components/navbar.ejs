@@ -26,6 +26,10 @@
           <!-- <li class="nav-item">
             <a class="nav-link" aria-disabled="true">Admin</a>
           </li> -->
+          <!-- Button trigger modal -->
+          <a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            About
+          </a>
           <% if (user) { %>
             <li class="nav-item">
               <a class="nav-link" href="/admin">Admin</a>
@@ -35,6 +39,7 @@
             </li>
         <% }%>
         </ul>
+        
         <form class="d-flex" method="post" action="/search" role="search">
           <input class="form-control me-2" type="search" name="q" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-light" type="submit">Search</button>
@@ -42,3 +47,25 @@
       </div>
     </div>
   </nav>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">About me</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="image-container">
+            <img src="/images/profile.jpeg" alt="Logo" class="rounded-image">
+          </div>
+          I have been passionate about writing since I was 16, when I first began exploring the art of poetry. Writing and reading have always been central to my life, fueling my creativity and deepening my understanding of the world. My ultimate goal is to share my work with a wider audience and establish myself as a successful author.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+        </div>
+      </div>
+    </div>
+  </div>

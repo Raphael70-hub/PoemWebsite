@@ -21,6 +21,8 @@ app.use(session({
     cookie: { secure: false, httpOnly: true, maxAge: 1000 * 60 * 60 * 24 } // Set `secure: true` in production
 }));
 
+hashPassword("WDyeF#vEr4N2sPbm");
+
 
 
 app.set('view engine', 'ejs');
@@ -30,12 +32,16 @@ app.use(bodyParser.urlencoded({extended: true}));
 const { Pool } = require('pg');
 
 
+// const pool = new Pool({
+//     user: process.env.DB_USER,
+//     host: process.env.DB_HOST,
+//     database: process.env.DB_NAME,
+//     password: process.env.DB_PASSWORD,
+//     port: process.env.DB_PORT || 5432,
+// });
+
 const pool = new Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASSWORD,
-    port: process.env.DB_PORT || 5432,
+  connectionString: process.env.SUPABASE_CONNECTION_STRING
 });
 
 const isAuthenticated = (req, res, next) => {
